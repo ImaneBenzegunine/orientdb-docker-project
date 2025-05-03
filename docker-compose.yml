@@ -1,0 +1,11 @@
+version: '3'
+services:
+  orientdb:
+    image: orientdb:3.2
+    ports:
+      - "2424:2424"  # Binary port (for queries)
+      - "2480:2480"  # Web UI (OrientDB Studio)
+    volumes:
+      - ./orientdb_data:/orientdb/databases  # Persist data
+    environment:
+      ORIENTDB_ROOT_PASSWORD: rootpassword  # Default root password
