@@ -1,0 +1,17 @@
+# OrientDB Graph Database Project
+
+A ready-to-run OrientDB container with Docker.
+
+## Prerequisites
+- Docker Desktop ([Download](https://www.docker.com/products/docker-desktop))
+
+
+## Setup in 30 Seconds
+
+```bash
+# 1. Clone this repository
+git clone https://github.com/your-username/orientdb-docker-project.git
+cd orientdb-docker-project
+
+# 2. Start OrientDB
+docker-compose up -d
