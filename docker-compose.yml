@@ -1,11 +1,56 @@
-version: '3'
 services:
   orientdb:
-    image: orientdb:3.2
+    image: orientdb:3.2.39
+    container_name: orientdb
     ports:
-      - "2424:2424"  # Binary port (for queries)
-      - "2480:2480"  # Web UI (OrientDB Studio)
+      - "2424:2424"
+      - "2480:2480"
     volumes:
-      - ./orientdb_data:/orientdb/databases  # Persist data
+      - ./orientdb_data:/orientdb/databases
     environment:
-      ORIENTDB_ROOT_PASSWORD: rootpassword  # Default root password
+      ORIENTDB_ROOT_PASSWORD: rootpassword
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2480/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  airflow:
+    image: apache/airflow:2.5.1-python3.8
+    container_name: airflow
+    depends_on:
+      orientdb:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow.db
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    user: "${AIRFLOW_UID:-50000}:0"
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /opt/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  spark:
+    image: bitnami/spark:3.3.1
+    container_name: spark
+    depends_on:
+      orientdb:
+        condition: service_healthy
+    ports:
+      - "4040:4040"
+    volumes:
+      - ./spark_jobs:/jobs
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
