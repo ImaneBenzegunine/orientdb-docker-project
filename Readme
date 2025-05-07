@@ -10,7 +10,7 @@ A ready-to-run OrientDB container with Docker.
 
 ```bash
 # 1. Clone this repository
-git clone https://github.com/your-username/orientdb-docker-project.git
+git clone https://github.com/ImaneBenzegunine/orientdb-docker-project.git
 cd orientdb-docker-project
 
 # 2. Start OrientDB
