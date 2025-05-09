@@ -66,23 +66,6 @@ def generate_user(num_users=100):
         })
     return pd.DataFrame(users)
 
-def generate_company(num_companies=20):
-    """Generate company data with current employees"""
-    companies = []
-    for _ in range(num_companies):
-        company_name = fake.company()
-        companies.append({
-            "company_id": fake.unique.random_number(digits=6),
-            "name": company_name,
-            "open_positions": [
-                {
-                    "position": fake.job_titles(),
-                    "required_skills": {skill: random.randint(3, 5) for skill in random.sample(professional_skills.elements, random.randint(3, 5))}
-                } for _ in range(random.randint(1, 5))
-            ]
-        })
-    return pd.DataFrame(companies)
-
 def generate_jobs(num_jobs=50):
     """Generate job postings with skill requirements"""
     jobs = []
