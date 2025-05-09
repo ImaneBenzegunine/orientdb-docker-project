@@ -49,22 +49,32 @@ def generate_user(num_users=100):
             "user_id": fake.unique.random_number(digits=8),
             "name": fake.name(),
             "email": fake.email(),
-            "headline": f"{fake.job_titles()} at {fake.company()}",
+            "job_title": fake.job_titles(),
+            "company": fake.company(),
             "skills": skills,
-            "experience": [
-                {
-                    "company": fake.company(),
-                    "position": fake.job_titles(),
-                    "duration_years": random.randint(1, 5),
-                    # Ensure we don't sample more skills than exist
-                    "skills_used": random.sample(
+            "company": fake.company(),
+            "position": fake.job_titles(),
+            "duration_years": random.randint(1, 5),
+            "skills_used": random.sample(
                         list(skills.keys()), 
                         min(random.randint(2, 5), len(skills))  # Take the smaller value
                     )
-                } for _ in range(random.randint(1, 4))
-            ]
+                
         })
     return pd.DataFrame(users)
+def generate_company(num_companies=20):
+    """Generate company data with current employees"""
+    companies = []
+    for _ in range(num_companies):
+        company_name = fake.company()
+        companies.append({
+            "company_id": fake.unique.random_number(digits=6),
+            "name": company_name,
+            "position": fake.job_titles(),
+            "required_skills": {skill: random.randint(3, 5) for skill in random.sample(professional_skills.elements, random.randint(3, 5))}
+                
+        })
+    return pd.DataFrame(companies)
 
 def generate_jobs(num_jobs=50):
     """Generate job postings with skill requirements"""
