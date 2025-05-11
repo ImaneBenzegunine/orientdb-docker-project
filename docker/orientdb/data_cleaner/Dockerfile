@@ -1,18 +1,14 @@
-FROM python:3.9-slim
+FROM orientdb:3.2.0
 
-WORKDIR /app
+# Copy custom config
+COPY ./docker/orientdb/config/orientdb-server-config.xml /orientdb/config/
 
-# Install dependencies first (better layer caching)
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Expose ports
+EXPOSE 2424 2480
 
-# Copy only what's needed
-COPY Scripts/ ./Scripts/
-# Data volume
-VOLUME /data
+# Volume for databases
+VOLUME /orientdb/databases
 
-# Run as non-root user (security best practice)
-RUN useradd -m appuser && chown -R appuser /app
-USER appuser
-
-CMD ["python", "Scripts/clean_data.py"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s \
+    CMD curl -f http://localhost:2480 || exit 1

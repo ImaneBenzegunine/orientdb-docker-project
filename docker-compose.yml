@@ -343,17 +343,16 @@ services:
     ports:
       - "2424:2424"
       - "2480:2480"
-
   data-cleaner:
     build:
       context: .
-      dockerfile: docker/data-cleaner/Dockerfile
+      dockerfile: docker/data_cleaner/Dockerfile
     volumes:
-      - ./data:/data
+      - csv_data:/data  # Changed from bind mount to named volume
     depends_on:
       - orientdb
-
 # Volumes should be at root level (not indented under services)
 volumes:
   postgres-db-volume:
   orientdb_data:
+  csv_data:

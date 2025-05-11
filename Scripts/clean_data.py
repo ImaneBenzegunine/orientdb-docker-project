@@ -2,6 +2,7 @@ import pandas as pd
 import ast
 from pathlib import Path
 from path import BASE_DIR, CLEAN_DATA_DIR,OUTPUT_DIR
+import os
 
 def clean_skills(skills_str):
     """Convert string representation of dict/list to actual Python objects"""
@@ -20,7 +21,11 @@ def clean_data(input_dir, output_dir):
     
     # Clean companies data
     companies = pd.read_csv(f"{input_dir}/companies.csv")
+    #print the type of the skills after cleaning
+    print(type(companies['required_skills'][0]))
     companies['required_skills'] = companies['required_skills'].apply(clean_skills)
+    #print the type of the skills after cleaning 
+    print(type(companies['required_skills'][0]))
     companies.to_csv(output_dir/"companies_clean.csv", index=False)
     
     # Clean employment data
