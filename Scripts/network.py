@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from typing import Dict, List
 from path import CLEAN_DATA_DIR,GRAPH_DATA_DIR
+import matplotlib.pyplot as plt
+
 # Configuration
 INPUT_DIR = CLEAN_DATA_DIR # Docker volume path for input CSVs
 OUTPUT_DIR = GRAPH_DATA_DIR # Docker volume path for graph outputs
@@ -35,7 +37,6 @@ def create_professional_network(data: Dict[str, pd.DataFrame]) -> nx.Graph:
             user["user_id"],
             type="user",
             name=user["name"],
-            email=user["email"],
             skills=convert_skills(user["skills"]),
             **user[["position", "duration_years"]].to_dict()
         )
@@ -82,6 +83,40 @@ def create_professional_network(data: Dict[str, pd.DataFrame]) -> nx.Graph:
     
     return G
 
+def plot_graph(G: nx.Graph, max_nodes: int = 50):
+    """Plot the professional network graph (limited to max_nodes for readability)"""
+    plt.figure(figsize=(12, 12))
+    
+    # Limit nodes for visualization if too large
+    if len(G.nodes) > max_nodes:
+        sub_nodes = list(G.nodes)[:max_nodes]
+        H = G.subgraph(sub_nodes)
+    else:
+        H = G
+
+    pos = nx.spring_layout(H, seed=42)  # Spring layout for nice spacing
+    
+    # Draw nodes by type
+    user_nodes = [n for n, attr in H.nodes(data=True) if attr.get('type') == 'user']
+    company_nodes = [n for n, attr in H.nodes(data=True) if attr.get('type') == 'company']
+    
+    nx.draw_networkx_nodes(H, pos, nodelist=user_nodes, node_color='skyblue', node_size=500, label="Users")
+    nx.draw_networkx_nodes(H, pos, nodelist=company_nodes, node_color='lightgreen', node_size=700, label="Companies")
+    
+    # Draw edges
+    nx.draw_networkx_edges(H, pos, arrows=True, alpha=0.5)
+    
+    # Draw labels
+    labels = {n: attr['name'] for n, attr in H.nodes(data=True)}
+    nx.draw_networkx_labels(H, pos, labels, font_size=9)
+    
+    plt.title("Professional Network Graph")
+    plt.axis('off')
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
 def save_graph(G: nx.Graph, output_dir: str):
     """Save graph in multiple formats"""
     Path(output_dir).mkdir(exist_ok=True, parents=True)
@@ -104,3 +139,5 @@ if __name__ == "__main__":
     print("Saving graph files...")
     save_graph(G, OUTPUT_DIR)
     print("Graph generation complete!")
+    print("Plotting graph...")
+    plot_graph(G)
