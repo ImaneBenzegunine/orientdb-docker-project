@@ -1,17 +1,51 @@
-# OrientDB Graph Database Project
+# Job Recommendation Engine with OrientDB
 
-A ready-to-run OrientDB container with Docker.
+## 🎯 Project Goal
+**Build a graph-based job recommendation system** that:
+- Matches candidates to jobs based on skill compatibility
+- Recommends career paths using employment history graphs
+- Identifies skill gaps for career advancement
+- Visualizes professional networks and opportunities
 
+## 🌟 Key Features
+| Feature | Description | Technology Used |
+|---------|-------------|-----------------|
+| Skill Matching | Recommends jobs based on skill overlap between candidates and positions | OrientDB Graph Queries |
+| Career Pathing | Suggests progression paths using historical employment patterns | NetworkX + GDS Algorithms |
+| Gap Analysis | Identifies missing skills for target positions | Spark ML |
+| Real-time Dashboard | Interactive visualization of recommendations | Streamlit |
+
+
+
+## 🛠️ Tech Stack
+
+| Component          | Technology               |
+|--------------------|--------------------------|
+| Database           | OrientDB 3.1.10          |
+| Data Generation    | Python Faker, NetworkX   |
+| ETL                | Apache Spark, PyOrient   |
+| Orchestration      | Airflow                  |
+| Visualization      | Streamlit, Metabase      |
+| Containerization   | Docker                   |
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Docker 20.10+
+- Docker Compose 2.0+
+- Python 3.8+
+
+### Installation
+```bash
 ## Prerequisites
 - Docker Desktop ([Download](https://www.docker.com/products/docker-desktop))
 
 
-## Setup in 30 Seconds
-
+## Setup
 ```bash
 # 1. Clone this repository
-git clone https://github.com/ImaneBenzegunine/orientdb-docker-project.git
-cd orientdb-docker-project
+git clone https://github.com/ImaneBenzegunine/GraphNest.git
+cd GraphNest
 
 # 2. Start OrientDB
 docker-compose up -d
