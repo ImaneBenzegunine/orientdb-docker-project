@@ -1,11 +1,15 @@
-# Dockerfile.data-cleaning
 FROM python:3.8-slim
 
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Set WORKDIR to the root of the container (/) 
+# and copy files directly there
+WORKDIR /
 
-COPY scripts/data_cleaner.py /scripts/
-COPY scripts/utils.py /scripts/
+# Install dependencies
+RUN pip install pyorient pandas
 
-CMD ["python", "/scripts/data_cleaner.py"]
+# Copy loader script (adjust path if needed)
+COPY Scripts/loader.py ./Scripts/loader.py
+COPY Scripts/path.py ./Scripts/path.py
+
+# Run the script
+CMD ["python", "Scripts/loader.py"]
