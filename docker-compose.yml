@@ -6,13 +6,17 @@ services:
       - "2480:2480"
     volumes:
       - orientdb_data:/orientdb/databases
+    environment:
+      ORIENTDB_ROOT_PASSWORD: admin
+  
 
   loader:
-    build: ./
+    build: .
     depends_on:
       - orientdb
     volumes:
-      - /c/Imane_BENZEGUNINE/project/nosql/DB_project/data/clean_data:/app/data
+      - ./data/clean_data:/app/data  # Mounts local data to container
+      - ./Scripts:/app/Scripts       # Mounts your scripts
     environment:
       - ORIENTDB_HOST=orientdb
       - ORIENTDB_PORT=2424

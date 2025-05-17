@@ -1,15 +1,12 @@
 FROM python:3.8-slim
 
-# Set WORKDIR to the root of the container (/) 
-# and copy files directly there
 WORKDIR /
 
-# Install dependencies
-RUN pip install pyorient pandas
+# Install with specific pyorient version
+RUN pip install pyorient==1.7.10 pandas
 
-# Copy loader script (adjust path if needed)
-COPY Scripts/loader.py ./Scripts/loader.py
-COPY Scripts/path.py ./Scripts/path.py
+# Copy all necessary files
+COPY Scripts/loader.py .
+COPY data/clean_data/ /app/data/
 
-# Run the script
 CMD ["python", "Scripts/loader.py"]

@@ -9,5 +9,4 @@ GRAPH_DATA_DIR=os.path.join(BASE_DIR, "data", "graph_data")
 
 GRAPH_PATH=os.path.join(BASE_DIR, "data", "graph","professional_network.graphml")
 
-
 #PATH_PROCESSED_CSV = os.path.join(BASE_DIR, "data", "outputTransfomed", "processed.csv")
