@@ -1,6 +1,6 @@
 services:
   orientdb:
-    image: orientdb:3.1.10  # Changed from 3.2.0
+    image: orientdb:3.1.10
     ports:
       - "2424:2424"
       - "2480:2480"
@@ -9,22 +9,20 @@ services:
     environment:
       ORIENTDB_ROOT_PASSWORD: admin
   
-
   loader:
     build: .
     depends_on:
       - orientdb
     volumes:
-      - ./data/clean_data:/app/data  # Mounts local data to container
-      - ./Scripts:/app/Scripts       # Mounts your scripts
+      - ./data/clean_data:/app/data
+      # Remove the Scripts volume mount since we're copying it in Dockerfile
     environment:
       - ORIENTDB_HOST=orientdb
       - ORIENTDB_PORT=2424
-      - ORIENTDB_DB=your_database_name
+      - ORIENTDB_DB=db3
       - ORIENTDB_USER=root
       - ORIENTDB_PASSWORD=admin
-    command: python Scripts/loader.py
+    
 
 volumes:
   orientdb_data:
-  volume1:

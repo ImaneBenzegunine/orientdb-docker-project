@@ -1,12 +1,14 @@
 FROM python:3.8-slim
 
-WORKDIR /
+WORKDIR /app
 
-# Install with specific pyorient version
-RUN pip install pyorient==1.7.10 pandas
+# Install dependencies
+RUN pip install pyorient pandas
 
-# Copy all necessary files
+# Copy the loader script
 COPY Scripts/loader.py .
-COPY data/clean_data/ /app/data/
 
-CMD ["python", "Scripts/loader.py"]
+# Copy data (optional - you're also mounting it via compose)
+COPY data/clean_data/ ./data/
+
+CMD ["python", "loader.py"]

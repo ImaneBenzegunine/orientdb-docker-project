@@ -13,7 +13,7 @@ if not os.path.exists(CLEAN_DATA_DIR):
 
 # OrientDB Configuration
 ORIENTDB_HOST = os.getenv('ORIENTDB_HOST', 'orientdb')
-ORIENTDB_PORT = int(os.getenv('ORIENTDB_PORT', 2424))
+ORIENTDB_PORT = int(os.getenv('ORIENTDB_PORT', 2480))
 DB_NAME = os.getenv('ORIENTDB_DB', 'db3')
 DB_USER = os.getenv('ORIENTDB_USER', 'root')
 DB_PASSWORD = os.getenv('ORIENTDB_PASSWORD', 'admin')
@@ -24,6 +24,7 @@ def get_data_path(filename):
     if os.path.exists(local_path):
         return local_path
     return os.path.join("/app/data", filename)  # Docker fallback
+
 def connect_to_orientdb():
     """Establish connection to OrientDB with environment awareness"""
     max_retries = 3
@@ -34,9 +35,8 @@ def connect_to_orientdb():
             host = ORIENTDB_HOST if is_docker else 'localhost'
             client = pyorient.OrientDB(host, ORIENTDB_PORT)
             
-            # Force binary protocol for better compatibility
-            client.set_session_token(True)
-            client.connect(DB_USER, DB_PASSWORD, serialization_type=pyorient.SERIALIZATION_BINARY)
+            # Remove the serialization_type parameter as it's not supported in newer pyorient versions
+            session_id = client.connect(DB_USER, DB_PASSWORD)
             
             if not client.db_exists(DB_NAME):
                 print(f"Creating database {DB_NAME}...")
@@ -53,7 +53,8 @@ def connect_to_orientdb():
             if attempt == max_retries - 1:
                 raise
             print(f"Connection failed (attempt {attempt + 1}), retrying...")
-            time.sleep(2)
+            time.sleep(10)
+
 def safe_literal_eval(data):
     """Safely evaluate string containing Python literal structures"""
     try:
