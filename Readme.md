@@ -1,4 +1,4 @@
-# Job Recommendation Engine with OrientDB
+# Job Recommendation Engine with OrientDB — 🚧 Work in Progress
 
 ## 🎯 Project Goal
 **Build a graph-based job recommendation system** that:
