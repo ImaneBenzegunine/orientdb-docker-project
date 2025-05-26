@@ -1,13 +1,13 @@
 # Job Recommendation Engine Neo4j— In Progress
 
-## 🎯 Project Goal
+##  Project Goal
 **Build a graph-based job recommendation system** that:
 - Matches candidates to jobs based on skill compatibility
 - Recommends career paths using employment history graphs
 - Identifies skill gaps for career advancement
 - Visualizes professional networks and opportunities
 
-## 🌟 Key Features
+##  Key Features
 | Feature | Description | Technology Used |
 |---------|-------------|-----------------|
 | Skill Matching | Recommends jobs based on skill overlap between candidates and positions | Neo4j Graph Queries |
@@ -17,7 +17,7 @@
 
 
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Component          | Technology               |
 |--------------------|--------------------------|
@@ -28,15 +28,13 @@
 | Visualization      | Streamlit, Metabase      |
 | Containerization   | Docker                   |
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Docker 20.10+
 - Docker Compose 2.0+
 - Python 3.8+
 
-### Installation
-To format that part of your `README.md` correctly so that it displays nicely on GitHub with proper **titles** and **code blocks**, follow this structure:
 
 ---
 
