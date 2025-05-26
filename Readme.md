@@ -41,40 +41,34 @@
 ```bash
 git clone https://github.com/ImaneBenzegunine/GraphNest.git
 cd GraphNest
-```bash
-2. Start OrientDB with Docker
 
+2. Start OrientDB with Docker
+```bash
 docker-compose up -d
 3. Set Up Python Environment
-
+```bash
 # Create virtual environment
 python -m venv venv
-
+```bash
 # Activate it (Windows)
 venv\Scripts\activate
-
+```bash
 # Install dependencies
 pip install -r requirements.txt
 4. Run the Main Script
-
+```bash
 python Script.py
 🛠️ Setting Up Airflow with Docker
 1. Initialize Airflow
-bash
-Copy
-Edit
+```bash
 cd airflow
 docker-compose up airflow-init
-2. Start Airflow Services
-bash
-Copy
-Edit
+2. Start Airflow Services(Open new terminal)
+```bash
 docker-compose up
 3. Monitor Running Containers (Optional)
-bash
-Copy
-Edit
+```bash
 docker ps
 4. Access the Airflow UI
 Open your browser and go to:
-👉 http://localhost:8080
+http://localhost:8080
