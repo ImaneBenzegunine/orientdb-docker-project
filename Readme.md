@@ -72,3 +72,27 @@ pip install -r requirements.txt
 Once all dependencies are installed, you can start your app (assuming it's in a file like app.py) using:
 
 python Script.py
+
+## Set up airflow with docker CMD
+```bash
+cd airflow
+docker-compose up airflow-init
+```bash
+Open new terminal
+```bash
+docker-compose up
+```bash
+Open new terminal
+```bash
+docker ps
+```bash
+- to check the health of the created containers
+
+On your broser open the port :
+```bash
+localhost:8080
+```bash
+
+
+
+
