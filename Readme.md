@@ -36,39 +36,78 @@
 - Python 3.8+
 
 ### Installation
+To format that part of your `README.md` correctly so that it displays nicely on GitHub with proper **titles** and **code blocks**, follow this structure:
 
-1. Clone the Repository
+---
+
+### 📦 Installation
+
+#### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/ImaneBenzegunine/GraphNest.git
 cd GraphNest
+```
 
-2. Start OrientDB with Docker
+#### 2. Start OrientDB with Docker
+
 ```bash
 docker-compose up -d
-3. Set Up Python Environment
+```
+
+---
+
+### Set Up Python Environment
+
+#### 3. Create and Activate Virtual Environment (Windows)
+
 ```bash
 # Create virtual environment
 python -m venv venv
-```bash
-# Activate it (Windows)
+
+# Activate virtual environment
 venv\Scripts\activate
+```
+
+#### 4. Install Dependencies
+
 ```bash
-# Install dependencies
 pip install -r requirements.txt
-4. Run the Main Script
+```
+
+#### 5. Run the Main Script
+
 ```bash
 python Script.py
-🛠️ Setting Up Airflow with Docker
-1. Initialize Airflow
+```
+
+---
+
+###  Setting Up Airflow with Docker
+
+#### 1. Initialize Airflow
+
 ```bash
 cd airflow
 docker-compose up airflow-init
-2. Start Airflow Services(Open new terminal)
+```
+
+#### 2. Start Airflow Services (Open a new terminal)
+
 ```bash
 docker-compose up
-3. Monitor Running Containers (Optional)
+```
+
+#### 3. Monitor Running Containers (Optional)
+
 ```bash
 docker ps
-4. Access the Airflow UI
+```
+
+#### 4. Access the Airflow UI
+
 Open your browser and go to:
+
+```
 http://localhost:8080
+```
