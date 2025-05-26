@@ -1,4 +1,4 @@
-# Job Recommendation Engine with OrientDB — In Progress
+# Job Recommendation Engine Neo4j— In Progress
 
 ## 🎯 Project Goal
 **Build a graph-based job recommendation system** that:
@@ -10,7 +10,7 @@
 ## 🌟 Key Features
 | Feature | Description | Technology Used |
 |---------|-------------|-----------------|
-| Skill Matching | Recommends jobs based on skill overlap between candidates and positions | OrientDB Graph Queries |
+| Skill Matching | Recommends jobs based on skill overlap between candidates and positions | Neo4j Graph Queries |
 | Career Pathing | Suggests progression paths using historical employment patterns | NetworkX + GDS Algorithms |
 | Gap Analysis | Identifies missing skills for target positions | Spark ML |
 | Real-time Dashboard | Interactive visualization of recommendations | Streamlit |
@@ -21,9 +21,9 @@
 
 | Component          | Technology               |
 |--------------------|--------------------------|
-| Database           | OrientDB 3.1.10          |
+| Database           | Neo4j          |
 | Data Generation    | Python Faker, NetworkX   |
-| ETL                | Apache Spark, PyOrient   |
+| ETL                | Apache Spark   |
 | Orchestration      | Airflow                  |
 | Visualization      | Streamlit, Metabase      |
 | Containerization   | Docker                   |
@@ -36,63 +36,45 @@
 - Python 3.8+
 
 ### Installation
-```bash
-## Prerequisites
-- Docker Desktop ([Download](https://www.docker.com/products/docker-desktop))
 
-
-## Setup
+1. Clone the Repository
 ```bash
-# 1. Clone this repository
 git clone https://github.com/ImaneBenzegunine/GraphNest.git
 cd GraphNest
+```bash
+2. Start OrientDB with Docker
 
-# 2. Start OrientDB
 docker-compose up -d
+3. Set Up Python Environment
 
-## Create a virtual environment:
-✅ 1. Create the virtual environment : In your project directory (where your Python files are), run:
-
+# Create virtual environment
 python -m venv venv
 
-This creates a virtual environment named venv.
-
-✅ 2. Activate the virtual environment
-
+# Activate it (Windows)
 venv\Scripts\activate
 
-✅ 3. Install the requirements
-Run the following command:
-
-
+# Install dependencies
 pip install -r requirements.txt
-
-
-✅ 4. Run your  project
-Once all dependencies are installed, you can start your app (assuming it's in a file like app.py) using:
+4. Run the Main Script
 
 python Script.py
-
-## Set up airflow with docker CMD
-```bash
+🛠️ Setting Up Airflow with Docker
+1. Initialize Airflow
+bash
+Copy
+Edit
 cd airflow
 docker-compose up airflow-init
-```bash
-Open new terminal
-```bash
+2. Start Airflow Services
+bash
+Copy
+Edit
 docker-compose up
-```bash
-Open new terminal
-```bash
+3. Monitor Running Containers (Optional)
+bash
+Copy
+Edit
 docker ps
-```bash
-- to check the health of the created containers
-
-On your broser open the port :
-```bash
-localhost:8080
-```bash
-
-
-
-
+4. Access the Airflow UI
+Open your browser and go to:
+👉 http://localhost:8080
