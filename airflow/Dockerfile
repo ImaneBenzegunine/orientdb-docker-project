@@ -19,10 +19,13 @@ RUN pip install apache-airflow-providers-apache-spark
 COPY requirements.txt .
 RUN pip install --user -r requirements.txt
 
+
+
 # Set Spark environment variables
 ENV SPARK_HOME=/usr/local/spark
 ENV PATH=$SPARK_HOME/bin:$PATH
 ENV PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+ENV PYTHONPATH="${PYTHONPATH}:/opt/airflow/scripts"
 
 # Dockerfile fix
 
