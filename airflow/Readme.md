@@ -1,6 +1,38 @@
 
 ###  **Full Airflow 2.7 Setup Checklist** (based on your script)
+---
 
+###  Setting Up Airflow with Docker
+
+#### 1. Initialize Airflow
+
+```bash
+cd airflow
+docker-compose up airflow-init
+```
+
+#### 2. Start Airflow Services (Open a new terminal)
+
+```bash
+docker-compose up
+```
+
+#### 3. Monitor Running Containers (Optional)
+
+```bash
+docker ps
+```
+
+#### 4. Access the Airflow UI
+
+Open your browser and go to:
+
+```
+http://localhost:8080
+```
+
+
+---
 #### 1. **Install prerequisites**
 
 ```bash

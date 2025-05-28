@@ -3,7 +3,7 @@ x-airflow-common:
   image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.7.3}
   environment:
     &airflow-common-env
-    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
     #AIRFLOW__CORE__AUTH_MANAGER: airflow.www.security.DefaultAuthManager
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
@@ -19,14 +19,14 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
-    - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    #- ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     redis:
       condition: service_healthy
     postgres:
       condition: service_healthy
-
+  command: bash -c "pip install neo4j && airflow webserver"
 services:
   postgres:
     image: postgres:13
@@ -90,9 +90,13 @@ services:
     restart: always
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      #- ./plugins:/opt/airflow/plugins
       - ./scripts:/opt/airflow/scripts
+      - ./config:/opt/airflow/config
       - ../data/output:/opt/airflow/data/raw
       - ../data/clean_dag:/opt/airflow/data/clean
+
     depends_on:
       postgres:
         condition: service_healthy
@@ -111,12 +115,16 @@ services:
       retries: 5
       start_period: 30s
     restart: always
+    
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      #- ./plugins:/opt/airflow/plugins
       - ./scripts:/opt/airflow/scripts
+      - ./config:/opt/airflow/config
       - ../data/output:/opt/airflow/data/raw
       - ../data/clean_dag:/opt/airflow/data/clean
-      - ./config:/opt/airflow/config
+  
     depends_on:
       postgres:
         condition: service_healthy
@@ -145,10 +153,15 @@ services:
         condition: service_healthy
       airflow-init:
         condition: service_completed_successfully
+    
     volumes:
-      - ../data/output:/opt/airflow/data/raw    
-      - ../data/clean_dag:/opt/airflow/data/clean
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      #- ./plugins:/opt/airflow/plugins
+      - ./scripts:/opt/airflow/scripts
       - ./config:/opt/airflow/config
+      - ../data/output:/opt/airflow/data/raw
+      - ../data/clean_dag:/opt/airflow/data/clean
 
   airflow-triggerer:
     <<: *airflow-common
@@ -189,7 +202,7 @@ services:
     volumes:
       - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
       - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
-      - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+      #- ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
       - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
       - ${AIRFLOW_PROJ_DIR:-.}/scripts:/opt/airflow/scripts
     restart: "no"
@@ -204,10 +217,16 @@ services:
     command: webserver
     environment:
       <<: *airflow-common-env
+    
     volumes:
       - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      #- ./plugins:/opt/airflow/plugins
       - ./scripts:/opt/airflow/scripts
       - ./config:/opt/airflow/config
+      - ../data/output:/opt/airflow/data/raw
+      - ../data/clean_dag:/opt/airflow/data/clean
+
 
 volumes:
   postgres-db-volume:
